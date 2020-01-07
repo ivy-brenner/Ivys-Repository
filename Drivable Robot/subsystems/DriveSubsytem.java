@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.DriveManuallyCommand;
 
 /**
  * Add your docs here.
@@ -37,6 +38,13 @@ public class DriveSubsystem extends Subsystem {
 
   // add manualDrive() method
 public void manualDrive(double move, double turn) {
+  if (Math.abs(move) < .10) {
+    move = 0;
+  }
+  if (Math.abs(turn) < .10) {
+    turn = 0;
+  }
+  
   drive.arcadeDrive(move, turn);
 }
 
@@ -45,5 +53,6 @@ public void manualDrive(double move, double turn) {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(newDriveManuallyCommand());
   }
 }
