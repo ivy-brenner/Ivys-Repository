@@ -7,8 +7,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
@@ -34,6 +36,9 @@ public class Drivetrain extends SubsystemBase {
 
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, 0.243);
 
+    PIDController leftPIDController = new PIDController(9.95, 0, 0);
+    PIDController rightPIDController = new PIDController(9.95, 0, 0);
+    
     Pose2d pose;
 
 
@@ -63,11 +68,32 @@ public class Drivetrain extends SubsystemBase {
         return feedforward;
     }
 
+    public DifferentialDriveKinematics getKinematics(){
+        return kinematics;
+    }
+
+    public Pose2d getPose(){
+        return pose;
+    }
+
+    public void setOutput(double leftVolts, rightVolts){
+        leftMaster.set(leftVolts / 12);
+        rightMaster.set(rightVolts / 12);
+    }
+
+    public PIDController getLeftPIDController (){
+        return leftPIDController; 
+    }
+
+    public PIDController getRightPIDController (){
+        return rightPIDController;
+    }
+
     @Override
     public void periodic(){
         pose  = odometry.update(getHeading(),_getSpeeds())_
     }
-
+ 
 
 
 }
